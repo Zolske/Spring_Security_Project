@@ -9,16 +9,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-// Client ID: Ov23lim4zgH9KgJCCeRu
-// Client secret: ee78fc952073de43af185903a1449f4f8e525cef
-
 @Configuration
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-//                .securityMatcher("/api/*")
+//                .securityMatcher("/api/*")    // For Task 3
                 .authorizeHttpRequests(auth ->
                 auth
                         .requestMatchers(HttpMethod.GET, "/api/v1/open/greeting").permitAll()
