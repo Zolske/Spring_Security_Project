@@ -33,6 +33,6 @@ build/
 .vscode/
 
 ### Application Properties ###
-/Users/beikmanv/northcoders/backend/Spring_Security_Project/src/main/resources/application.properties/
+#application.properties
 
 # intellij
