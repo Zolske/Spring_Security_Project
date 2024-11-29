@@ -33,6 +33,6 @@ build/
 .vscode/
 
 ### Application Properties ###
-application.properties
+src/main/resources/application.properties
 
 # intellij
