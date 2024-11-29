@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class GrettingControler {
 
-    @GetMapping("open/greeting")
+    @GetMapping("/open/greeting")
     public static String openGreeting(){
         return "Welcome to our API.";
     }
 
-    @GetMapping("protected/greeting")
+    @GetMapping("/protected/greeting")
     public static String protectedGreeting(){
         return "Hello my API friend. :)";
     }
