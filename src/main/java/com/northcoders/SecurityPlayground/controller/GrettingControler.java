@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-//@RequestMapping("/api/v1")
+@RequestMapping("/api/v1")
 public class GrettingControler {
 
-    @GetMapping("/api/v1/open/greeting")
+    @GetMapping("/open/greeting")
     public static String openGreeting(){
         return "Welcome to our API.";
     }
 
-    @GetMapping("api/v1//protected/greeting")
+    @GetMapping("/protected/greeting")
     public static String protectedGreeting(){
         return "Hello my API friend.";
     }
