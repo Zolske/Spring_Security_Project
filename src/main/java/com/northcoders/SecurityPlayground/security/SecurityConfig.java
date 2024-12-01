@@ -6,9 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -17,20 +21,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                // Disable CSRF and allow frames for H2 console
+                .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions().disable())
+
                 // Authorization rules
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/api/v1/open/greeting").permitAll() // Open endpoint
                         .requestMatchers(HttpMethod.GET, "/api/v1/protected/greeting").authenticated() // Protected endpoint
                         .requestMatchers("/h2-console/**").permitAll() // Allow H2 console access
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated() // Other requests require authentication
                 )
-                // OAuth2 login
-                .oauth2Login(oauth -> oauth
-                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService)) // Use custom OAuth2 user service
-                )
-                // Disable CSRF and Frame Options for H2 console
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity with H2
-                .headers(headers -> headers.frameOptions().disable()); // Allow frames for H2 console
+
+                // OAuth2 login configuration with custom user service
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)))
+                .oauth2Client(withDefaults());
 
         return http.build();
     }
